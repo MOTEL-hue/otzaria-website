@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>קורא — אוצריא ווב</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="reader-header">
+  <div class="reader-title">
+    <a href="index.html">←</a>
+    <span id="book-title">טוען…</span>
+    <span class="sub" id="book-sub"></span>
+  </div>
+  <div class="reader-actions">
+    <button id="btn-sync-scroll" class="active" title="גלילה מסונכרנת בין שני הלוחות">גלילה מסונכרנת</button>
+    <button id="btn-bookmark">סמן מקום</button>
+    <button id="btn-search-toggle">חיפוש</button>
+  </div>
+</header>
+
+<div class="reader-body">
+  <div class="pane primary" id="pane-main"></div>
+  <div class="spine"></div>
+  <div class="pane secondary" id="pane-commentary"></div>
+</div>
+
+<div class="search-panel" id="search-panel">
+  <h4>תוצאות חיפוש</h4>
+  <div id="search-results"></div>
+</div>
+
+<script src="js/library.js"></script>
+<script src="js/reader.js"></script>
+</body>
+</html>

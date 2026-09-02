@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>אוצריא ווב — הספרייה התורנית שלך</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="brand">
+    <div class="mark">א</div>
+    <div>
+      <div class="name">אוצריא ווב</div>
+      <div class="tagline">גרסת דפדפן — אותה ספרייה, בכל מקום</div>
+    </div>
+  </div>
+  <div class="header-search">
+    <input id="global-search" type="text" placeholder="חפש בכל הספרייה… (למשל: בראשית, ברכות)">
+    <span class="icon">⌕</span>
+  </div>
+</header>
+
+<div class="shell">
+  <section class="hero">
+    <h1>ספרייה יהודית דיגיטלית, פתוחה לכולם.</h1>
+    <p>תנ״ך, משנה, תלמוד ומפרשים — במקום אחד, עם תצוגת לוח כפול, חיפוש בכל הספרייה, וסימניות אישיות. גרסת אתר זו נבנתה בהשראת עיצוב ותפקודי אוצריא, ומסתנכרנת מול אותו מקור נתונים.</p>
+    <div class="sync-status">
+      <span class="dot"></span>
+      <span id="sync-text">טוען סטטוס סנכרון…</span>
+    </div>
+  </section>
+
+  <section class="categories" id="categories"></section>
+</div>
+
+<div class="search-panel" id="search-panel">
+  <h4>תוצאות חיפוש</h4>
+  <div id="search-results"></div>
+</div>
+
+<footer class="site-footer">
+  <div class="shell" style="padding:0">
+    הטקסטים המוצגים כאן הם מהדורות עתיקות ברשות הרבים, לצורך הדגמה בלבד. הפרויקט המקורי אוצריא הוא קוד פתוח
+    ומבוסס בעיקר על עבודת ספריא ודיקטה — ראו קרדיטים בקובץ ה־README.
+  </div>
+</footer>
+
+<script src="js/library.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

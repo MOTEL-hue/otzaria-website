@@ -1,0 +1,13 @@
+{
+  "name": "otzaria-web",
+  "version": "0.1.0",
+  "description": "גרסת אתר עצמאית בהשראת עיצוב ותפקודי אוצריא, עם סנכרון ספרייה מול GitHub Releases",
+  "main": "server/index.js",
+  "scripts": {
+    "start": "node server/index.js",
+    "sync": "node -e \"require('./server/sync').runSync().then(console.log).catch(e=>{console.error(e);process.exit(1)})\""
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
