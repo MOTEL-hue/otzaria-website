@@ -33,8 +33,9 @@ function loadLibrary() {
 
 // GET /api/library — full catalog (categories + books).
 // בפריסה אמיתית זה נטען מ-SQLite (seforim.db) ולא מקובץ JSON יחיד.
-app.get('/api/library', (req, res) => {
-  res.json(loadLibrary());
+app.get('/api/library', (req, res, next) => {
+  try { res.json(loadLibrary()); }
+  catch (error) { logBug("טעינת ספרייה", error, req); next(error); }
 });
 
 // חיפוש שמתעלם מניקוד/טעמים בין האותיות (הטקסט מנוקד, שאילתת המשתמש בד"כ לא).
@@ -50,10 +51,10 @@ function buildFuzzyRegex(query) {
 app.get('/api/search', (req, res) => {
   const q = (req.query.q || '').trim();
   if (q.length < 2) return res.json([]);
-
-  const regex = buildFuzzyRegex(q);
-  const lib = loadLibrary();
-  const results = [];
+  try {
+    const regex = buildFuzzyRegex(q);
+    const lib = loadLibrary();
+    const results = [];
   for (const bookId of Object.keys(lib.books)) {
     const book = lib.books[bookId];
     for (const section of book.sections) {
@@ -62,7 +63,11 @@ app.get('/api/search', (req, res) => {
       }
     }
   }
-  res.json(results);
+    res.json(results);
+  } catch (error) {
+    logBug("חיפוש", error, req);
+    res.status(500).json({ error: "החיפוש נכשל. נסו שוב מאוחר יותר." });
+  }
 });
 
 // GET /api/sync/status — גרסת ספרייה נוכחית + האם קיים עדכון.
@@ -71,7 +76,8 @@ app.get('/api/sync/status', async (req, res) => {
     const status = await getSyncStatus();
     res.json(status);
   } catch (e) {
-    res.status(503).json({ error: 'sync backend unavailable', detail: e.message });
+    logBug("בדיקת סנכרון", e, req);
+    res.status(503).json({ error: "שירות הסנכרון אינו זמין כרגע." });
   }
 });
 
@@ -81,7 +87,8 @@ app.post('/api/sync/run', async (req, res) => {
     const result = await runSync();
     res.json(result);
   } catch (e) {
-    res.status(500).json({ error: 'sync failed', detail: e.message });
+    logBug("סנכרון ספרייה", e, req);
+    res.status(500).json({ error: "עדכון הספרייה נכשל. נסו שוב מאוחר יותר." });
   }
 });
 
