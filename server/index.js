@@ -4,6 +4,23 @@ const fs = require('fs');
 const { getSyncStatus, runSync } = require('./sync');
 
 const app = express();
+
+// יומן תקלות חסכוני: פרטים טכניים בלבד, בלי שאילתות או גוף בקשה.
+function logBug(kind, error, req) {
+  const safePath = (req && req.path ? req.path : "/").slice(0, 160);
+  const message = String(error && error.message ? error.message : error || "שגיאה לא ידועה")
+    .replace(/https?:\/\/\S+/g, "[כתובת]")
+    .replace(/(token|secret|password|authorization|cookie)=([^&\s]+)/ig, "$1=[הוסתר]")
+    .slice(0, 240);
+  console.error(JSON.stringify({
+    מערכת: "אוצריא",
+    סוג: String(kind || "שגיאת שרת").slice(0, 40),
+    נתיב: safePath,
+    הודעה: message,
+    זמן: new Date().toISOString()
+  }));
+}
+
 const PORT = process.env.PORT || 3000;
 const DATA_PATH = path.join(__dirname, '..', 'public', 'data', 'library.json');
 
