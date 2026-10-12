@@ -2,11 +2,13 @@ const express = require('express');
 const path = require('path');
 const fs = require('fs');
 const { getSyncStatus, runSync } = require('./sync');
+const bugLog = require('./buglog');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 const DATA_PATH = path.join(__dirname, '..', 'public', 'data', 'library.json');
 
+app.use(bugLog.middleware);
 app.use(express.static(path.join(__dirname, '..', 'public')));
 app.use(express.json());
 
@@ -67,6 +69,9 @@ app.post('/api/sync/run', async (req, res) => {
     res.status(500).json({ error: 'sync failed', detail: e.message });
   }
 });
+
+process.on('unhandledRejection', (reason) => bugLog.record('unhandled_rejection', reason && reason.message ? reason.message : String(reason)));
+process.on('uncaughtExceptionMonitor', (error) => bugLog.record('uncaught_exception', error && error.message ? error.message : String(error)));
 
 app.listen(PORT, () => {
   console.log(`otzaria-web listening on http://localhost:${PORT}`);
